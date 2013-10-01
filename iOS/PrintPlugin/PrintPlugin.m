@@ -84,23 +84,14 @@
 		//Set the priner settings
         UIPrintInfo *printInfo = [UIPrintInfo printInfo];
         printInfo.outputType = UIPrintInfoOutputGeneral;
+        printInfo.jobName = @"Estimate Print";
+        printInfo.duplex = UIPrintInfoDuplexLongEdge;
         controller.printInfo = printInfo;
         controller.showsPageRange = YES;
         
         
-        //Set the base URL to be the www directory.
-        NSString *dbFilePath = [[NSBundle mainBundle] pathForResource:@"www" ofType:nil ];
-        NSURL *baseURL = [NSURL fileURLWithPath:dbFilePath];
-                
-        //Load page into a webview and use its formatter to print the page 
-		UIWebView *webViewPrint = [[UIWebView alloc] init];
-		[webViewPrint loadHTMLString:printHTML baseURL:baseURL];
-        
-        //Get formatter for web (note: margin not required - done in web page)
-		UIViewPrintFormatter *viewFormatter = [webViewPrint viewPrintFormatter];
-        controller.printFormatter = viewFormatter;
         controller.showsPageRange = YES;
-        
+        controller.printingItem = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.pdfURL]];
         
 		void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
 		^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
@@ -108,13 +99,11 @@
                 [self callbackWithFuntion:self.failCallback withData:
                     [NSString stringWithFormat:@"{success: false, available: true, error: \"%@\"}", error.localizedDescription]];
                 
-                [webViewPrint release];
                 
 			}
             else{
                 [self callbackWithFuntion:self.successCallback withData: @"{success: true, available: true}"];
                 
-                [webViewPrint release];
             }
         };
         
@@ -129,6 +118,7 @@
         }
     }
 }
+
 
 -(BOOL) isPrintServiceAvailable{
   

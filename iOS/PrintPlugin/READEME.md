@@ -1,11 +1,5 @@
-Notes added 2-26-2012 
-Add PrintPlugin PrintPlugin to Cordova.plist under Plugins
-Test on real hardware not Simulator
 
-
-
-# PhoneGap Print-Plugin #
-by Ian Tipton (github.com/itip).
+# PhoneGap Print-Plugin Modification to print PDF documents#
 
 Print from iOS devices to AirPrint compatible printers. 
 
@@ -50,7 +44,7 @@ Printing is only available on devices capable of multi-tasking (iPhone 3GS, iPho
 ### print ###
 Function takes an html string and (optionally) a success callback, failure callback, and options.
 
-1. An HTML string, e.g. <strong>hello<strong>
+1. A url for the PDF document
 2. Success callback - receives an object with two parameters:
        - success (always true)
        - available (always true)
@@ -60,15 +54,10 @@ Function takes an html string and (optionally) a success callback, failure callb
        - error (error message returned by iOS in the event of an error)
 4. An object which contains printing options (see below).
 
-```javascript
-//Get HTML string
-var html = document.getElementById("printHTML").innerHTML;
+var url = "http://path.to.yourpdf.com/document.pdf";
 
-/*
- Pass an HTML and - optionally - success function, error function.
- */
  window.plugins.printPlugin.print(
-     html,
+     url,
      function(result) {
         alert("Printing successful");
      }, 
@@ -88,30 +77,6 @@ var html = document.getElementById("printHTML").innerHTML;
       */
  );
 ```
-
-### Supporting devices running below iOS < 4.2 ###
-In order to compile this for versions of iOS earlier than 4.2 (when printing was introduced) then you will need to add -weak_framework UIKit to the project settings under "Other Linker Flags". See the Stack Overflow article for more information: http://stackoverflow.com/questions/4297723/ios-add-printing-but-keep-compatibility-with-ios-3.
-
-### Testing in the iOS Simulator ###
-There's no need to waste lots of paper when testing - if you're using the iOS simulator, select File->Open Printer Simulator to open some dummy printers (print outs will appear as PDF files).
-
-### Adding Page Breaks to Printouts ###
-Use the 'page-break-before' property to specify a page break, e.g.
-
-```javascript
-<p>
-First page.
-</p>
-
-<p style="page-break-before: always">
-Second page.
-</p>
-```
-
-See W3Schools for more more information: http://www.w3schools.com/cssref/pr_print_pagebb.asp
-
-Note: you will need to add an extra top margin to new pages.
-
 
 ### Printing on Real Printers ###
 Printing is only supported on AirPrint-enabled printers or with the use of third-party software on your computer. The following pages contain more information:

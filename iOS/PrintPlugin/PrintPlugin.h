@@ -19,7 +19,7 @@
 @interface PrintPlugin : CDVPlugin {
     NSString* successCallback;
     NSString* failCallback;
-    NSString* printHTML;
+    NSString* pdfURL;
     
     //Options
     NSInteger dialogLeftPos;
@@ -28,7 +28,7 @@
 
 @property (nonatomic, copy) NSString* successCallback;
 @property (nonatomic, copy) NSString* failCallback;
-@property (nonatomic, copy) NSString* printHTML;
+@property (nonatomic, copy) NSString* pdfURL;
 
 //Print Settings
 @property NSInteger dialogLeftPos;
